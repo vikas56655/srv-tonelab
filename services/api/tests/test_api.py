@@ -11,3 +11,33 @@ def test_demo():
 def test_wav_restriction():
  r=c.post('/api/analyze',files={'file':('a.mp3',b'123','audio/mpeg')})
  assert r.status_code==415
+
+def test_timeline_shape_and_bounds():
+ d=c.get('/api/demo-analysis').json()
+ assert d['method'].startswith('FFT')
+ assert len(d['pitch_track'])>2
+ assert len(d['pitch_track'])<=140
+ assert len(d['spectrogram']['times'])==len(d['pitch_track'])
+ assert len(d['spectrogram']['intensity'])==len(d['pitch_track'])
+ assert all(len(col)==48 for col in d['spectrogram']['intensity'])
+ assert d['spectrogram']['times']==sorted(d['spectrogram']['times'])
+ assert all(0<=v<=1 for col in d['spectrogram']['intensity'] for v in col)
+ assert all(p['time']>=0 for p in d['onsets'])
+
+def test_timeline_steady_tone():
+ import numpy as np
+ from app.timeline import make_timeline
+ sr=22050
+ t=np.arange(sr*2)/sr
+ x=.24*np.sin(2*np.pi*220*t)
+ result=make_timeline(x,sr)
+ values=[p['hz'] for p in result['pitch_track'] if p['hz'] is not None]
+ assert len(values)>3
+ assert abs(float(np.median(values))-220)<8
+
+def test_silence_has_no_pitch():
+ import numpy as np
+ from app.timeline import make_timeline
+ r=make_timeline(np.zeros(22050),22050)
+ assert all(p['hz'] is None for p in r['pitch_track'])
+ assert len(r['onsets'])==0
