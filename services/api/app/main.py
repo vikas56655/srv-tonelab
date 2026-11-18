@@ -1,11 +1,12 @@
 """SRV ToneLab: educational audio feature extraction, no copyrighted audio."""
 import io,math,wave
 import numpy as np
+from .timeline import make_timeline
 from fastapi import FastAPI,UploadFile,File,HTTPException
-app=FastAPI(title='SRV ToneLab API',version='0.1.0')
+app=FastAPI(title='SRV ToneLab API',version='0.2.0')
 ITEMS=[dict(title='Texas Flood',album='Texas Flood',year=1983,note='Expressive slow blues'),dict(title='Pride and Joy',album='Texas Flood',year=1983,note='Driving Texas shuffle'),dict(title='Lenny',album='Texas Flood',year=1983,note='Melodic instrumental'),dict(title='Cold Shot',album="Couldn't Stand the Weather",year=1984,note='Laid-back blues groove'),dict(title='Riviera Paradise',album='In Step',year=1989,note='Atmospheric instrumental')]
 @app.get('/health')
-def health():return {'status':'ok','version':'0.1.0'}
+def health():return {'status':'ok','version':'0.2.0'}
 @app.get('/api/recordings')
 def recordings():return {'items':ITEMS,'source':'Curated educational starter catalog'}
 def analyze(x:np.ndarray,sr:int):
@@ -36,7 +37,8 @@ def analyze(x:np.ndarray,sr:int):
  bins=np.geomspace(35,min(18000,sr/2),96);spec=[]
  for hz in bins:
   k=int(np.argmin(np.abs(freq-hz)));spec.append({'hz':round(float(freq[k]),1),'db':round(float(20*np.log10(max(fft[k],1e-7))),2)})
- return dict(sample_rate=sr,duration_seconds=round(len(x)/sr,3),rms=round(rms,5),peak=round(peak,5),spectral_centroid_hz=round(centroid,1),spectral_rolloff_hz=round(rolloff,1),estimated_pitch_hz=round(pitch,2) if pitch else None,estimated_pitch_note=note,waveform=envelope,spectrum=spec,disclaimer='Exploratory measurements only. Monophonic pitch estimation is unreliable for chords and full mixes.')
+ timeline=make_timeline(x,sr)
+ return dict(**timeline,sample_rate=sr,duration_seconds=round(len(x)/sr,3),rms=round(rms,5),peak=round(peak,5),spectral_centroid_hz=round(centroid,1),spectral_rolloff_hz=round(rolloff,1),estimated_pitch_hz=round(pitch,2) if pitch else None,estimated_pitch_note=note,waveform=envelope,spectrum=spec,disclaimer='Exploratory measurements only. Monophonic pitch estimation is unreliable for chords and full mixes.')
 @app.get('/api/demo-analysis')
 def demo():
  sr=22050;t=np.arange(sr*3)/sr;env=(1-np.exp(-t*45))*np.exp(-t*1.3);x=env*(.42*np.sin(2*np.pi*220*t)+.17*np.sin(2*np.pi*440*t)+.08*np.sin(2*np.pi*660*t))
