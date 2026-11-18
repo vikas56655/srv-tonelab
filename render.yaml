@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: srv-tonelab-api
+    runtime: python
+    plan: free
+    region: frankfurt
+    rootDir: services/api
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+  - type: web
+    name: srv-tonelab-web
+    runtime: node
+    plan: free
+    region: frankfurt
+    rootDir: apps/web
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: API_ORIGIN
+        value: https://srv-tonelab-api.onrender.com
