@@ -10,6 +10,12 @@ jobs:
           python-version: '3.12'
       - run: pip install -r services/api/requirements-dev.txt
       - run: PYTHONPATH=services/api pytest -q services/api/tests
+      - name: Generate pitch evaluation report
+        run: PYTHONPATH=services/api python -m benchmarks.evaluate > pitch-benchmark.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: synthetic-pitch-benchmark
+          path: pitch-benchmark.json
   web:
     runs-on: ubuntu-latest
     defaults: {run: {working-directory: apps/web}}
