@@ -41,3 +41,15 @@ def test_silence_has_no_pitch():
  r=make_timeline(np.zeros(22050),22050)
  assert all(p['hz'] is None for p in r['pitch_track'])
  assert len(r['onsets'])==0
+
+
+def test_synthetic_research_benchmark_contract():
+ from benchmarks.evaluate import benchmark
+ result=benchmark()["results"]
+ assert set(result)=={"steady_A3","two_semitone_slide","40_cent_vibrato","two_note_chord","silence"}
+ assert result["silence"]["voiced_fraction"]==0
+ assert result["steady_A3"]["voiced_fraction"]>.5
+ assert result["steady_A3"]["median_absolute_pitch_error_cents"]<50
+ for name in ("steady_A3","two_semitone_slide","40_cent_vibrato"):
+  assert 0<=result[name]["within_50_cents_fraction_of_voiced"]<=1
+  assert result[name]["frames"]<=140
