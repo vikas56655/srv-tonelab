@@ -6,16 +6,22 @@
 
 ## Shipped v0.2 — Experimental Guitar Intelligence
 - A time-resolved estimated pitch track (normalized autocorrelation with voiced/unvoiced gaps).
-- A log-frequency, 48-band spectrogram with 140-frame cap for low-cost processing.
+- A log-frequency, 48-band spectrogram with bounded frame count for low-cost processing.
 - Spectral-flux onset candidates, a time scrubber and optional onset-marker overlays.
 - Bound-checked API payloads and tests for steady tone, silence and output shape.
 
-**Important:** These are exploratory signal-processing baselines; accuracy on commercial music or polyphonic recordings has not been established. No claims of bend/vibrato detection yet.
+**Important:** These are exploratory signal-processing baselines; accuracy on commercial music or polyphonic recordings has not been established. v0.3 only adds conservative *candidate* pitch gestures, not validated technique classification.
+
+## Shipped v0.3 — Candidate Guitar Techniques
+- Experimental sustained-pitch, pitch slide/bend and vibrato-like candidate events from pitch trajectories.
+- Clickable event timeline, counts, time ranges and heuristic tracking strength.
+- Controlled unit tests on synthetic trajectories; no quantified real-guitar precision/recall yet.
+- Research methodology: [TECHNIQUES.md](TECHNIQUES.md).
 
 ## Upcoming research
-- v0.3: Labeled, licensed note, bend and vibrato evaluation dataset; temporal smoothing and uncertainty calibration.
-- v0.4: Source-verified MusicBrainz discography and metadata caching, plus documented influences.
-- v0.5: Audio-embedding similarity search with retrieval quality evaluation.
-- v0.6: Security hardening, upload rate limits, observability, authenticated background jobs and persistence.
+- v0.4: Labeled, licensed note, bend and vibrato evaluation dataset; temporal smoothing and uncertainty calibration.
+- v0.5: Source-verified MusicBrainz discography and metadata caching, plus documented influences.
+- v0.6: Audio-embedding similarity search with retrieval quality evaluation.
+- v0.7: Security hardening, upload rate limits, observability, authenticated background jobs and persistence.
 
 No copyrighted SRV recordings are hosted. All music-history relationships labeled illustrative are not independently verified.
