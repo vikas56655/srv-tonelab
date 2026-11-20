@@ -18,3 +18,28 @@
 .timeline-summary strong{display:block;color:#edba87;font-size:25px}
 .timeline-summary small{color:#a99481;font-size:10px;letter-spacing:1px}
 @media(max-width:650px){.timeline-summary{grid-template-columns:1fr}.chart-heading h2{font-size:20px}.scrubber{align-items:flex-start;flex-direction:column}.scrubber input{width:100%}}
+
+
+/* Guitar Technique Analyzer v0.3 */
+.technique-panel{margin:28px 0}
+.research-tag{border:1px solid #8c6b4e;background:#3b2d24;border-radius:20px;padding:9px 11px;font-size:10px;letter-spacing:1px;color:#e8b78e}
+.technique-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
+.technique-stats>div{display:flex;align-items:center;gap:11px;padding:14px;border:1px solid #584335;border-radius:9px;flex-wrap:wrap;background:#28211d}
+.technique-stats strong{font-size:26px;color:#efc196}
+.technique-stats small{color:#bea992;flex-basis:100%;font-size:12px}
+.tech-dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex-shrink:0}
+.technique-timeline{background:#1d1916;border:1px solid #48362b;padding:20px 10px 10px;border-radius:9px}
+.technique-track{height:37px;position:relative;background:repeating-linear-gradient(90deg,#3f342e 0,#3f342e 1px,transparent 1px,transparent 10%);border-top:1px solid #5a4436;border-bottom:1px solid #5a4436}
+.technique-event{position:absolute;top:6px;height:24px;border:1px solid #e9d0b5;border-radius:3px;min-width:3px;cursor:pointer;opacity:.8;padding:0}
+.technique-event.selected,.technique-event:hover{outline:2px solid #f9dfc7;outline-offset:2px;opacity:1}
+.technique-axis{display:flex;justify-content:space-between;color:#ad9987;font-size:11px;margin-top:10px}
+.technique-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:17px 0}
+.technique-row{display:flex;align-items:center;gap:12px;text-align:left;background:#2b231e;border:1px solid #4f3b2e;border-radius:8px;color:#f2dfcc;padding:13px}
+.technique-row:hover,.technique-row.chosen{border-color:#d9a174;background:#403026}
+.technique-row span:nth-child(2){min-width:0;flex:1}
+.technique-row strong{display:block;font-size:13px}.technique-row small{display:block;color:#b4a392;margin-top:5px}
+.tech-metric{font-size:12px;color:#e0b58d;font-variant-numeric:tabular-nums}
+.technique-details{border-left:3px solid #d39c69;background:#322820;padding:14px 18px;margin-bottom:15px;color:#ead3bd}
+.technique-details p{margin:7px 0;color:#c9b3a1;line-height:1.5;font-size:13px}
+.method-link{color:#edb17d;text-decoration:underline;text-underline-offset:4px;font-size:13px}
+@media(max-width:650px){.technique-stats,.technique-list{grid-template-columns:1fr}.technique-row{gap:9px}}
