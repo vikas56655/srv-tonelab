@@ -14,9 +14,9 @@ def _note(hz: float) -> str:
 def make_timeline(signal: np.ndarray, sr: int) -> dict:
     x = np.asarray(signal, dtype=np.float64)
     duration = len(x) / sr
-    nfft = 4096 if sr >= 16000 else 2048
-    # Cap analysis at <= 140 windows for predictable serverless runtime and payload.
-    count = min(140, max(1, math.ceil(duration / 0.16)))
+    nfft = 2048 if sr >= 16000 else 1024
+    # Denser frames for note-expression research; <= 620 to bound CPU and JSON payload.
+    count = min(620, max(1, math.ceil(duration / 0.05)))
     centers = np.linspace(min(duration / 2, nfft/(2*sr)), max(min(duration / 2,nfft/(2*sr)),duration - nfft/(2*sr)), count)
     if duration < nfft/sr:
         centers = np.array([duration / 2.])
@@ -87,7 +87,10 @@ def make_timeline(signal: np.ndarray, sr: int) -> dict:
     # Relative dB shading; clamp to a [-65,0] display range.
     maximum = float(np.max(bands))
     shading = np.clip((bands-maximum+65)/65,0,1)
+    from .techniques import analyze_techniques
+    gestures = analyze_techniques(time_series)
     return {
+        'technique_analysis': gestures,
         'method': 'FFT log-frequency spectrogram + normalized autocorrelation pitch + spectral-flux onsets',
         'pitch_track': time_series,
         'onsets': onsets[:80],
