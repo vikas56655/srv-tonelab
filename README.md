@@ -2,10 +2,11 @@
 
 An **unofficial** open-source research and music-technology platform inspired by Stevie Ray Vaughan. Built with Next.js, FastAPI, Python, and Web Audio.
 
-## Current MVP (v0.2)
+## Current MVP (v0.3)
 
 - **Audio Laboratory**: Analyze a short PCM WAV, or an original generated demo. Visualizes amplitude envelope, FFT frequency spectrum, RMS, spectral centroid, rolloff and approximate monophonic pitch.
 - **Guitar Intelligence v0.2**: Time-resolved estimated pitch, interactive time scrubber, log-frequency spectrogram, and spectral-flux onset candidates (experimental baseline; not validated bend/vibrato classification).
+- **Guitar Technique Analyzer v0.3**: Experimental conservative candidate detection for sustained notes, pitch slides or bends, and vibrato-like modulation, with a clickable event timeline. Read [detection methods](docs/TECHNIQUES.md). No trained/validated musical-gesture model is claimed.
 - **Tone Explorer**: Browser-based, synthetic guitar-like pluck with interactive drive, brightness and sustain.
 - **Discography**: Introductory selection of SRV recordings with outbound MusicBrainz lookups.
 - **Blues Influence Map**: Illustrative artist connections, not yet backed by historical citations.
@@ -41,7 +42,7 @@ The browser talks to Next.js same-origin `/api/*` routes; the Next.js server pro
 
 ## Render deployment
 
-The live v0.2 proof of concept uses two Vercel Hobby deployments: a Next.js frontend and a Python FastAPI backend. It was deployed directly using Vercel tools; **automatic GitHub-based deployment is not yet connected**.
+The live v0.3 proof of concept uses two Vercel Hobby deployments: a Next.js frontend and a Python FastAPI backend. It was deployed directly using Vercel tools; **automatic GitHub-based deployment is not yet connected**.
 
 The [render.yaml](render.yaml) Blueprint also declares two **free-plan** Render web services in Frankfurt, but applying the Blueprint was blocked by Render account billing verification:
 - `srv-tonelab-api`: Python FastAPI backend
@@ -64,7 +65,7 @@ npm run build
 
 ## Data and rights
 
-The v0.2 pitch curve is a normalized-autocorrelation baseline. A monophonic sine wave is a controlled test signal; guitar bends, vibrato and polyphonic pitch tracking remain unvalidated.
+The pitch curve and v0.3 technique cues are exploratory signal-processing estimates. A monophonic sine wave is a controlled test signal; guitar bends, vibrato and polyphonic pitch tracking remain unvalidated on real audio.
 
 No copyrighted Stevie Ray Vaughan recordings, official artwork or music files are bundled. The audio demo is mathematically generated and is **not an SRV recording or tone model**. Users should upload only material they have rights to analyze. Upload files are processed in memory; uploads are not intentionally saved. The public MVP does not yet provide robust per-user abuse rate limiting, so limit access/use until production protections are added.
 
