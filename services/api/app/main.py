@@ -3,10 +3,10 @@ import io,math,wave
 import numpy as np
 from .timeline import make_timeline
 from fastapi import FastAPI,UploadFile,File,HTTPException
-app=FastAPI(title='SRV ToneLab API',version='0.2.0')
+app=FastAPI(title='SRV ToneLab API',version='0.3.0')
 ITEMS=[dict(title='Texas Flood',album='Texas Flood',year=1983,note='Expressive slow blues'),dict(title='Pride and Joy',album='Texas Flood',year=1983,note='Driving Texas shuffle'),dict(title='Lenny',album='Texas Flood',year=1983,note='Melodic instrumental'),dict(title='Cold Shot',album="Couldn't Stand the Weather",year=1984,note='Laid-back blues groove'),dict(title='Riviera Paradise',album='In Step',year=1989,note='Atmospheric instrumental')]
 @app.get('/health')
-def health():return {'status':'ok','version':'0.2.0'}
+def health():return {'status':'ok','version':'0.3.0'}
 @app.get('/api/recordings')
 def recordings():return {'items':ITEMS,'source':'Curated educational starter catalog'}
 def analyze(x:np.ndarray,sr:int):
