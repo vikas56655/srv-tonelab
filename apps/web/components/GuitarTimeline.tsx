@@ -40,12 +40,12 @@ export function GuitarTimeline({data,duration}:{data:Timeline;duration:number}){
  <div className="panel chart">
    <div className="chart-heading"><div><span className="eyebrow">RESEARCH FEATURE / 02</span><h2>Time-resolved pitch</h2><p className="muted">Estimated note trajectory · monophonic baseline · gaps indicate uncertain pitch</p></div><label className="toggle"><input type="checkbox" checked={showOnsets} onChange={e=>setShowOnsets(e.target.checked)}/> Show onset candidates</label></div>
    <svg viewBox={`0 0 ${W} ${H}`} className="analysis-svg" role="img" aria-label="Pitch frequency plotted versus time with optional note onset markers">
-      {[110,220,440,880].map(h=><g key={h}><line x1={PAD} x2={W-12} y1={hzToY(h,minHz,maxHz)} y2={hzToY(h,minHz,maxHz)} stroke="#514237" strokeDasharray="4 6"/><text x="4" y={hzToY(h,minHz,maxHz)+4} fill="#a99584" fontSize="12">{guessNote(h)}</text></g>)}
-      {ticks.map((t,i)=><text key={i} x={cx(t,duration)} y={H-7} textAnchor="middle" fontSize="11" fill="#aa9481">{t.toFixed(1)}s</text>)}
-      {showOnsets&&data.onsets.map((p,i)=><line key={i} x1={cx(p.time,duration)} x2={cx(p.time,duration)} y1="10" y2={H-32} stroke="#78b9af" opacity=".5" strokeDasharray="3 5"/>)}
-      {pitchPaths.map((path,i)=><path key={i} d={path} fill="none" stroke="#efb37d" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round"/>)}
-      {active?.hz!==null&&active?.hz!==undefined&&<circle cx={cx(active.time,duration)} cy={hzToY(Math.max(minHz,Math.min(maxHz,active.hz)),minHz,maxHz)} r="6" fill="#ffcf95" stroke="#231913" strokeWidth="2"/>}
-      <line x1={cx(active?.time||0,duration)} x2={cx(active?.time||0,duration)} y1="5" y2={H-30} stroke="#f4d8b5" opacity=".4"/>
+      {[110,220,440,880].map(h=><g key={h}><line x1={PAD} x2={W-12} y1={hzToY(h,minHz,maxHz)} y2={hzToY(h,minHz,maxHz)} stroke="#dce3ec" strokeDasharray="4 6"/><text x="4" y={hzToY(h,minHz,maxHz)+4} fill="#6e7886" fontSize="12">{guessNote(h)}</text></g>)}
+      {ticks.map((t,i)=><text key={i} x={cx(t,duration)} y={H-7} textAnchor="middle" fontSize="11" fill="#6e7886">{t.toFixed(1)}s</text>)}
+      {showOnsets&&data.onsets.map((p,i)=><line key={i} x1={cx(p.time,duration)} x2={cx(p.time,duration)} y1="10" y2={H-32} stroke="#54aa9d" opacity=".5" strokeDasharray="3 5"/>)}
+      {pitchPaths.map((path,i)=><path key={i} d={path} fill="none" stroke="#0071e3" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round"/>)}
+      {active?.hz!==null&&active?.hz!==undefined&&<circle cx={cx(active.time,duration)} cy={hzToY(Math.max(minHz,Math.min(maxHz,active.hz)),minHz,maxHz)} r="6" fill="#0071e3" stroke="#ffffff" strokeWidth="2"/>}
+      <line x1={cx(active?.time||0,duration)} x2={cx(active?.time||0,duration)} y1="5" y2={H-30} stroke="#4179be" opacity=".4"/>
    </svg>
    <div className="scrubber"><label htmlFor="pitch-time">Inspect time</label><input id="pitch-time" type="range" min={0} max={frames.length-1} value={index} onChange={e=>setIndex(Number(e.target.value))}/><span className="readout">{(active?.time||0).toFixed(2)} s · {active?.note||'No confident note'} {active?.hz? `· ${active.hz.toFixed(0)} Hz`:''} · confidence {Math.round((active?.confidence||0)*100)}%</span></div>
  </div>
@@ -56,14 +56,14 @@ export function GuitarTimeline({data,duration}:{data:Timeline;duration:number}){
      const xx=PAD+i*(W-PAD-12)/spec.intensity.length;
      const yy=H-32-(j+1)*(H-47)/col.length;
      const power=Math.max(0,Math.min(1,v));
-     return <rect key={i+'-'+j} x={xx} y={yy} width={(W-PAD-12)/spec.intensity.length+.5} height={(H-47)/col.length+.6} fill={`hsl(${20+22*power} 75% ${8+62*power}%)`}/>;
+     return <rect key={i+'-'+j} x={xx} y={yy} width={(W-PAD-12)/spec.intensity.length+.5} height={(H-47)/col.length+.6} fill={`hsl(${209+4*power} 70% ${96-60*power}%)`}/>;
    }))}
-   {ticks.map((t,i)=><text key={i} x={cx(t,duration)} y={H-7} fontSize="11" fill="#aa9481" textAnchor="middle">{t.toFixed(1)}s</text>)}
+   {ticks.map((t,i)=><text key={i} x={cx(t,duration)} y={H-7} fontSize="11" fill="#6e7886" textAnchor="middle">{t.toFixed(1)}s</text>)}
    {([100,250,500,1000,2500,5000]).filter(v=>v<=Math.max(...spec.frequencies_hz)).map(v=>{
      const freqs=spec.frequencies_hz;let closest=0;for(let i=0;i<freqs.length;i++)if(Math.abs(Math.log(freqs[i]/v))<Math.abs(Math.log(freqs[closest]/v)))closest=i;
-     return <text key={v} x="2" y={H-32-(closest+.5)*(H-47)/freqs.length+4} fontSize="11" fill="#ae9d8e">{v>=1000?`${v/1000}k`:v}</text>;
+     return <text key={v} x="2" y={H-32-(closest+.5)*(H-47)/freqs.length+4} fontSize="11" fill="#6e7886">{v>=1000?`${v/1000}k`:v}</text>;
    })}
-   <line x1={cx(active?.time||0,duration)} x2={cx(active?.time||0,duration)} y1="5" y2={H-32} stroke="#e8dbcc" opacity=".65"/>
+   <line x1={cx(active?.time||0,duration)} x2={cx(active?.time||0,duration)} y1="5" y2={H-32} stroke="#4179be" opacity=".65"/>
    </svg>
    <div className="legend"><span>Lower energy</span><div className="gradient-swatch"/><span>Higher energy</span></div>
  </div>
