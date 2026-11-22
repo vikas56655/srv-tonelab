@@ -2,7 +2,7 @@
 
 An **unofficial** open-source research and music-technology platform inspired by Stevie Ray Vaughan. Built with Next.js, FastAPI, Python, and Web Audio.
 
-## Current MVP (v0.3)
+## Current product (v0.3) and evaluation tooling (v0.4 groundwork)
 
 - **Audio Laboratory**: Analyze a short PCM WAV, or an original generated demo. Visualizes amplitude envelope, FFT frequency spectrum, RMS, spectral centroid, rolloff and approximate monophonic pitch.
 - **Guitar Intelligence v0.2**: Time-resolved estimated pitch, interactive time scrubber, log-frequency spectrogram, and spectral-flux onset candidates (experimental baseline; not validated bend/vibrato classification).
@@ -11,6 +11,8 @@ An **unofficial** open-source research and music-technology platform inspired by
 - **Discography**: Introductory selection of SRV recordings with outbound MusicBrainz lookups.
 - **Blues Influence Map**: Illustrative artist connections, not yet backed by historical citations.
 - **API and CI**: FastAPI endpoints, basic tests and GitHub Actions workflow.
+
+- **v0.4 validation tooling (repository only):** Label manifest schema and local offline evaluator for precision, recall and event-level F1. [Real guitar validation protocol](docs/REAL_GUITAR_VALIDATION.md). No labeled real-guitar results have been collected or claimed.
 
 **Research status:** Validated bend/vibrato classifiers, advanced neural models, source-backed music history, audio embeddings, and recommendations are roadmap items, *not* shipped in v0.1.
 
@@ -40,7 +42,7 @@ Open http://localhost:3000 and try **Launch audio demo**. API health: http://loc
 
 The browser talks to Next.js same-origin `/api/*` routes; the Next.js server proxies requests to `API_ORIGIN` (defaults to `http://localhost:8000`). This avoids requiring browser CORS configuration.
 
-## Render deployment
+## Deployment
 
 The live v0.3 proof of concept uses two Vercel Hobby deployments: a Next.js frontend and a Python FastAPI backend. It was deployed directly using Vercel tools; **automatic GitHub-based deployment is not yet connected**.
 
