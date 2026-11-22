@@ -19,9 +19,9 @@ const names:Record<string,string>={
  vibrato_candidate:'Possible vibrato'
 };
 const color:Record<string,string>={
- sustain:'#72b0a4',
- pitch_slide_candidate:'#e1ac7b',
- vibrato_candidate:'#c7a5db'
+ sustain:'#59a89e',
+ pitch_slide_candidate:'#4994e8',
+ vibrato_candidate:'#a18cda'
 };
 export function TechniquePanel({data,duration}:{data:Techniques;duration:number}){
  const [selected,setSelected]=useState<number|null>(null);
