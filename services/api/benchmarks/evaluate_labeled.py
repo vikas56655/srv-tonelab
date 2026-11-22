@@ -9,7 +9,6 @@ recordings annotated without viewing model predictions. Files remain local.
 """
 from __future__ import annotations
 import argparse
-import io
 import json
 from pathlib import Path
 import wave
@@ -34,6 +33,7 @@ def read_wav(path: Path) -> tuple[np.ndarray,int]:
         if sr < 8000 or sr > 192000 or frames / max(sr,1) > 40:
             raise ValueError(f"{path}: 8–192 kHz, <=40 seconds only")
         raw=f.readframes(frames)
+        channels=f.getnchannels()
     if sample_width == 3:
         a=np.frombuffer(raw,dtype=np.uint8).reshape(-1,3)
         samples=a[:,0].astype(np.int32)|(a[:,1].astype(np.int32)<<8)|(a[:,2].astype(np.int32)<<16)
@@ -42,7 +42,7 @@ def read_wav(path: Path) -> tuple[np.ndarray,int]:
         dtype={1:np.uint8,2:np.int16,4:np.int32}[sample_width]
         samples=np.frombuffer(raw,dtype=dtype).astype(np.float64)
         samples=(samples-128)/128 if sample_width==1 else samples/(2**(8*sample_width-1))
-    if f.getnchannels()==2:
+    if channels==2:
         samples=samples.reshape(-1,2).mean(axis=1)
     if len(samples)<1024:
         raise ValueError("Audio too short")
@@ -60,7 +60,7 @@ def overlap(a: dict,b: dict) -> float:
     return intersection/union if union>0 else 0.
 
 def match_events(reference: list[dict], predicted: list[dict], threshold: float=.3) -> dict:
-    """Maximum-cardinality deterministic greedy matching by overlap, same label only.
+    """Deterministic greedy matching by overlap, same label only.
 
     Each prediction and reference can match at most once. Candidate pairs are
     sorted by descending IoU, then stable source index; no label leakage.
