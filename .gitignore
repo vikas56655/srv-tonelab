@@ -9,3 +9,9 @@ __pycache__/
 *.wav
 *.mp3
 .DS_Store
+
+# Keep evaluation sessions and human-labeled local data private
+private_audio/
+private_data/
+data/my-private-*.json
+my-private-*.json
