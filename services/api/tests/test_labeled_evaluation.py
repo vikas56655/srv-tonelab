@@ -40,3 +40,27 @@ def test_annotation_boundaries():
     row={"id":"a","audio_path":"a.wav","session_id":"s1","labels":[event("vibrato",1,1)]}
     with pytest.raises(ValueError):
         validate_manifest({"schema_version":"1.0","recordings":[row]})
+
+def test_end_to_end_local_wav_evaluation(tmp_path):
+    """A generated silent WAV exercises the full I/O path, not real-world accuracy."""
+    import wave
+    import json
+    import numpy as np
+    from benchmarks.evaluate_labeled import evaluate
+    audio=tmp_path/"silent.wav"
+    sr=22050
+    with wave.open(str(audio),"wb") as w:
+        w.setnchannels(1)
+        w.setsampwidth(2)
+        w.setframerate(sr)
+        w.writeframes(np.zeros(sr,dtype=np.int16).tobytes())
+    manifest=tmp_path/"manifest.json"
+    manifest.write_text(json.dumps({"schema_version":"1.0","recordings":[
+        {"id":"silent","audio_path":"silent.wav","session_id":"synthetic-session","labels":[]}
+    ]}))
+    report=evaluate(manifest)
+    assert report["recording_count"]==1
+    assert report["overall_micro"]["tp"]==0
+    assert report["overall_micro"]["fp"]==0
+    assert report["overall_micro"]["fn"]==0
+    assert report["overall_micro"]["precision"] is None
