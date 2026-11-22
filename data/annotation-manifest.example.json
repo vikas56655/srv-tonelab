@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "recordings": [
+    {
+      "id": "replace-with-real-clip-id",
+      "audio_path": "../private_audio/replace-with-your-file.wav",
+      "session_id": "performer-a-session-1",
+      "labels": [
+        {
+          "type": "sustain",
+          "start": 0.3,
+          "end": 1.1
+        },
+        {
+          "type": "bend",
+          "start": 1.2,
+          "end": 1.8
+        }
+      ]
+    }
+  ]
+}
