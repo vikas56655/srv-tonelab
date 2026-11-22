@@ -18,8 +18,15 @@
 - Controlled unit tests on synthetic trajectories; no quantified real-guitar precision/recall yet.
 - Research methodology: [TECHNIQUES.md](TECHNIQUES.md).
 
+## v0.4 groundwork — evaluation infrastructure (shipped to GitHub)
+- Independent annotation manifest template in `data/annotation-manifest.example.json`.
+- Local evaluator for precision, recall, F1 and one-to-one temporal IoU matching (`services/api/benchmarks/evaluate_labeled.py`).
+- Matching and schema tests (`services/api/tests/test_labeled_evaluation.py`).
+- [Human annotation protocol](REAL_GUITAR_VALIDATION.md).
+- **Not complete:** real labeled audio dataset, verified metrics, inter-rater agreement and held-out player/session evaluation.
+
 ## Upcoming research
-- v0.4: Labeled, licensed note, bend and vibrato evaluation dataset; temporal smoothing and uncertainty calibration.
+- v0.4 completion: Gather licensed labeled guitar data and establish held-out real-world metrics; improve temporal smoothing and uncertainty calibration.
 - v0.5: Source-verified MusicBrainz discography and metadata caching, plus documented influences.
 - v0.6: Audio-embedding similarity search with retrieval quality evaluation.
 - v0.7: Security hardening, upload rate limits, observability, authenticated background jobs and persistence.
