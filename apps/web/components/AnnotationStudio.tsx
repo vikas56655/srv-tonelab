@@ -41,9 +41,7 @@ export function AnnotationStudio(){
  const audio=useRef<HTMLAudioElement|null>(null);
  const selectFile=useRef<HTMLInputElement|null>(null);
  const importInput=useRef<HTMLInputElement|null>(null);
- const svg=useRef<SVGSVGElement|null>(null);
  const objectURL=useRef<string>('');
- const importObject=useRef<string>('');
  useEffect(()=>()=>{if(objectURL.current)URL.revokeObjectURL(objectURL.current)},[]);
  const visibleLength=duration/zoom;
  const viewEnd=Math.min(duration,startView+visibleLength);
@@ -212,7 +210,7 @@ export function AnnotationStudio(){
     </div>
     {zoom>1&&<input aria-label="Pan visible recording window" className="studio-pan" type="range" min="0" max={Math.max(0,duration-visibleLength)} step=".01" value={startView} onChange={e=>setStartView(Number(e.target.value))}/>}
     <p className="muted">Drag over the waveform to select a time range, or click to seek. Zoom to inspect short passages.</p>
-    <svg ref={svg} className="studio-waveform" viewBox={`0 0 ${WIDTH} 230`} role="img" aria-label="Interactive waveform; drag to select a time interval"
+    <svg className="studio-waveform" viewBox={`0 0 ${WIDTH} 230`} role="img" aria-label="Interactive waveform; drag to select a time interval"
       onPointerDown={pointerDown} onPointerMove={pointerMove} onPointerUp={pointerUp}
       onPointerCancel={()=>{setDragStart(null);setSelection(null)}} style={{touchAction:'none',cursor:'crosshair'}}>
       <rect x={LEFT} y={TOP} width={RIGHT-LEFT} height={BOTTOM-TOP} fill="#f7faff" rx="9"/>
@@ -224,7 +222,7 @@ export function AnnotationStudio(){
       })}
       {annotations.filter(a=>a.end>=startView&&a.start<=viewEnd).map(a=>
        <g key={a.id}><rect x={project(Math.max(a.start,startView))} y={TOP} width={Math.max(1,project(Math.min(a.end,viewEnd))-project(Math.max(a.start,startView)))} height={BOTTOM-TOP}
-        fill={LABEL_COLORS[a.type]} opacity={selected===a.id?.30:.17} stroke={LABEL_COLORS[a.type]} strokeWidth={selected===a.id?2:1}/>
+        fill={LABEL_COLORS[a.type]} opacity={selected===a.id ? .30 : .17} stroke={LABEL_COLORS[a.type]} strokeWidth={selected===a.id?2:1}/>
         <text x={project(Math.max(a.start,startView))+4} y="31" fontSize="10" fill="#263a55" fontWeight="600">{LABEL_NAMES[a.type]}</text></g>)}
       {selection&&<rect x={project(Math.max(startView,selection.start))} y={TOP} width={Math.max(1,project(Math.min(viewEnd,selection.end))-project(Math.max(startView,selection.start)))} height={BOTTOM-TOP} fill="#0071e3" opacity=".17" stroke="#0071e3" strokeWidth="2" strokeDasharray="5 4"/>}
       {showPredictions&&predictions.filter(p=>p.end>=startView&&p.start<=viewEnd).map((p,i)=>
