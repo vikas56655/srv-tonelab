@@ -18,7 +18,10 @@
 - Controlled unit tests on synthetic trajectories; no quantified real-guitar precision/recall yet.
 - Research methodology: [TECHNIQUES.md](TECHNIQUES.md).
 
-## v0.4 groundwork — evaluation infrastructure (shipped to GitHub)
+## Shipped v0.4 — Annotation Studio and evaluation infrastructure
+- Browser-based annotation workspace with zoomable waveform, playback, editable intervals, independent labels and JSON/CSV export.
+- Optional overlay of prediction candidates with one-to-one temporal IoU evaluation and TP/FP/FN, precision, recall, F1 (client-side, single recording).
+- [Annotation Studio documentation](ANNOTATION_STUDIO.md).
 - Independent annotation manifest template in `data/annotation-manifest.example.json`.
 - Local evaluator for precision, recall, F1 and one-to-one temporal IoU matching (`services/api/benchmarks/evaluate_labeled.py`).
 - Matching and schema tests (`services/api/tests/test_labeled_evaluation.py`).
