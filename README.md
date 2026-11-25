@@ -2,17 +2,18 @@
 
 An **unofficial** open-source research and music-technology platform inspired by Stevie Ray Vaughan. Built with Next.js, FastAPI, Python, and Web Audio.
 
-## Current product (v0.3) and evaluation tooling (v0.4 groundwork)
+## Current product (v0.4) and evaluation tooling
 
 - **Audio Laboratory**: Analyze a short PCM WAV, or an original generated demo. Visualizes amplitude envelope, FFT frequency spectrum, RMS, spectral centroid, rolloff and approximate monophonic pitch.
 - **Guitar Intelligence v0.2**: Time-resolved estimated pitch, interactive time scrubber, log-frequency spectrogram, and spectral-flux onset candidates (experimental baseline; not validated bend/vibrato classification).
 - **Guitar Technique Analyzer v0.3**: Experimental conservative candidate detection for sustained notes, pitch slides or bends, and vibrato-like modulation, with a clickable event timeline. Read [detection methods](docs/TECHNIQUES.md). No trained/validated musical-gesture model is claimed.
+- **Annotation Studio v0.4**: Browser-local WAV playback, zoomable waveform selection, editable human technique intervals, model-to-reference temporal IoU evaluation, JSON/CSV imports and exports. [Studio guide](docs/ANNOTATION_STUDIO.md).
 - **Tone Explorer**: Browser-based, synthetic guitar-like pluck with interactive drive, brightness and sustain.
 - **Discography**: Introductory selection of SRV recordings with outbound MusicBrainz lookups.
 - **Blues Influence Map**: Illustrative artist connections, not yet backed by historical citations.
 - **API and CI**: FastAPI endpoints, basic tests and GitHub Actions workflow.
 
-- **v0.4 validation tooling (repository only):** Label manifest schema and local offline evaluator for precision, recall and event-level F1. [Real guitar validation protocol](docs/REAL_GUITAR_VALIDATION.md). No labeled real-guitar results have been collected or claimed.
+- **v0.4 offline validation tooling:** Label manifest schema and local offline evaluator for precision, recall and event-level F1. [Real guitar validation protocol](docs/REAL_GUITAR_VALIDATION.md). No labeled real-guitar results have been collected or claimed.
 
 **Research status:** Validated bend/vibrato classifiers, advanced neural models, source-backed music history, audio embeddings, and recommendations are roadmap items, *not* shipped in v0.1.
 
@@ -44,7 +45,7 @@ The browser talks to Next.js same-origin `/api/*` routes; the Next.js server pro
 
 ## Deployment
 
-The live v0.3 proof of concept uses two Vercel Hobby deployments: a Next.js frontend and a Python FastAPI backend. It was deployed directly using Vercel tools; **automatic GitHub-based deployment is not yet connected**.
+The live v0.4 proof of concept uses two Vercel Hobby deployments: a Next.js frontend and a Python FastAPI backend. It was deployed directly using Vercel tools; **automatic GitHub-based deployment is not yet connected**.
 
 The [render.yaml](render.yaml) Blueprint also declares two **free-plan** Render web services in Frankfurt, but applying the Blueprint was blocked by Render account billing verification:
 - `srv-tonelab-api`: Python FastAPI backend
